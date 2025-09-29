@@ -1,9 +1,18 @@
 import mongoose from 'mongoose';
 
-const MONGODB_URI = process.env.MONGODB_URI!;
+const MONGODB_URI = process.env.DATABASE_URL!;
 
 if (!MONGODB_URI) {
   throw new Error('Please define the MONGODB_URI environment variable inside .env.local');
+}
+
+// Extend the global type
+declare global {
+  // eslint-disable-next-line no-var
+  var mongoose: {
+    conn: mongoose.Mongoose | null;
+    promise: Promise<mongoose.Mongoose> | null;
+  };
 }
 
 let cached = global.mongoose;
@@ -29,12 +38,22 @@ async function dbConnect() {
 
   try {
     cached.conn = await cached.promise;
-  } catch (e) {
+    console.log("Database connection successful");
+  } catch (e: any) {
     cached.promise = null;
+    console.error("Database connection failed:", e);
     throw e;
   }
 
   return cached.conn;
 }
 
-export default dbConnect;
+async function dbDisconnect() {
+  if (cached.conn) {
+    await mongoose.disconnect();
+    cached.conn = null;
+    console.log("Database disconnected");
+  }
+}
+
+export { dbConnect, dbDisconnect };

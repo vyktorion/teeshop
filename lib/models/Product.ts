@@ -1,6 +1,6 @@
-import mongoose, { Document, Schema } from 'mongoose';
-
+import mongoose, { Types, Document, Schema } from 'mongoose';
 export interface IProduct extends Document {
+  _id: Types.ObjectId;
   name: string;
   description: string;
   price: number;
@@ -8,7 +8,7 @@ export interface IProduct extends Document {
   sizes: string[];
   colors: string[];
   images: string[];
-  stock: { [key: string]: number }; // size-color combinations
+  stock: { [key: string]: number };
   featured: boolean;
   onSale: boolean;
   salePrice?: number;

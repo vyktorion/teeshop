@@ -45,16 +45,16 @@ export function ProductCard({ product, index = 0, viewMode = 'grid' }: ProductCa
       const [sizeColor] = availableStock;
       const [size, color] = sizeColor.split('-');
       
-      addItem({
-        id: product._id,
-        name: product.name,
-        price: product.price,
-        salePrice: product.salePrice,
-        image: product.images[0],
-        size: size,
-        color: color,
-        stock: availableStock[1],
-      });
+     addItem({
+  id: product._id.toString(),
+  name: product.name,
+  price: product.price,
+  salePrice: product.salePrice,
+  image: product.images[0],
+  size: size,
+  color: color,
+  stock: availableStock[1],
+});
     }
   };
 
