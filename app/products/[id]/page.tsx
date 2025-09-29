@@ -108,7 +108,7 @@ export default function ProductPage() {
 
   const pricing = formatPrice(product.price, product.salePrice);
   const selectedStock = selectedSize && selectedColor 
-    ? product.stock[`${selectedSize}-${selectedColor}`] || 0 
+    ? product.stock[`${selectedSize}-${selectedColor}` as keyof typeof product.stock] || 0
     : 0;
 
   useEffect(() => {
@@ -331,7 +331,7 @@ export default function ProductPage() {
             </div>
             <div className="grid grid-cols-6 gap-2">
               {product.sizes.map((size) => {
-                const sizeStock = selectedColor ? product.stock[`${size}-${selectedColor}`] || 0 : 0;
+                const sizeStock = selectedColor ? product.stock[`${size}-${selectedColor}` as keyof typeof product.stock] || 0 : 0;
                 const isAvailable = sizeStock > 0;
                 
                 return (
